@@ -6,7 +6,7 @@ var xyCreator = function(boardWidth, boardHeight) {
 var numEnemies = function (num) {
   var results = [];
   for (var i = 0; i < num; i++) {
-    results.push(xyCreator(100, 100));
+    results.push(xyCreator(800, 600));
   }
   return results;
 };
@@ -17,5 +17,16 @@ d3.select('.board').selectAll("svg")
   .append("svg")
   .style("width", "800px")
   .style("height", "600px");
+
+
+d3.select('svg').selectAll('circle')
+  .data(numEnemies(20))
+  .enter()
+  .append('circle')
+  .classed()
+  .attr('r', '15')
+  .attr('cx', function (d) { return d[0]; }) //REFACTOR IN ES6
+  .attr('cy', function (d) { return d[1]; })
+  .style('fill', 'red');
 
 
