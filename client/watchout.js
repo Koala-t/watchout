@@ -11,19 +11,19 @@ var numEnemies = function (num) {
   return results;
 };
 
-d3.select('.board').selectAll("svg")
+d3.select('.board').selectAll('svg')
   .data([1])
   .enter()
-  .append("svg")
-  .style("width", "800px")
-  .style("height", "600px");
+  .append('svg')
+  .style('width', '800px')
+  .style('height', '600px');
 
 
 d3.select('svg').selectAll('circle')
   .data(numEnemies(20))
   .enter()
   .append('circle')
-  .classed()
+  .classed('asteroid', true)
   .attr('r', '15')
   .attr('cx', function (d) { return d[0]; }) //REFACTOR IN ES6
   .attr('cy', function (d) { return d[1]; })
