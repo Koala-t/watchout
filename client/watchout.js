@@ -11,11 +11,11 @@ var numEnemies = function (num) {
   return results;
 };
 
-var enemyCount = 20;
+var enemyCount = 3;
 var enemySpeed = 1000;
 
 d3.select('.board').selectAll('svg')
-  .data([1])
+  .data([null])
   .enter()
   .append('svg')
   .style('width', '800px')
@@ -23,7 +23,7 @@ d3.select('.board').selectAll('svg')
 
 
 d3.select('svg').selectAll('circle')
-  .data(numEnemies(debrisCount))
+  .data(numEnemies(enemyCount))
   .enter()
   .append('circle')
   .classed('asteroid', true)
@@ -32,17 +32,26 @@ d3.select('svg').selectAll('circle')
   .attr('cy', function (d) { return d[1]; })
   .style('fill', 'red');
 
-
-
+d3.select('svg').selectAll('svg')
+  .data([1])
+  .enter()
+  .append('circle')
+  .classed('player', true)
+  .attr('r', '10')
+  // .attr('height', '10px')
+  .attr('cx', '400')
+  .attr('cy', '300')
+  .style('fill', 'green');
 
 var changeEnemyPositions = function () {
-  d3.select('svg').selectAll('circle')
-    .data(numEnemies(debrisCount))
+  d3.select('svg').selectAll('.asteroid')
+    .data(numEnemies(enemyCount))
     .transition().duration(enemySpeed)
     .attr('cx', function (d) { return d[0]; }) 
     .attr('cy', function (d) { return d[1]; });
 };
 
-var shuffleEnemies = function() {
-  
-};
+
+setInterval(changeEnemyPositions, enemySpeed);
+
+
