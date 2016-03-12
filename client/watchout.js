@@ -11,8 +11,31 @@ var numEnemies = function (num) {
   return results;
 };
 
-var enemyCount = 3;
+var enemyCount = 30;
 var enemySpeed = 1000;
+
+// var click = function(){
+//   // Ignore the click event if it was suppressed
+//   // if (d3.event.defaultPrevented) return;
+//   // Extract the click location\
+//   debugger;    
+//   var point = d3.mouse(this);
+//   var p = {x: point[0], y: point[1] };
+// };
+//from a copy-paste; what does this accomplish?
+
+var dragmove = function(d) {
+  var x = d3.event.x;
+  var y = d3.event.y;
+  d3.select(this).attr('cx', x);
+  d3.select(this).attr('cy', y);
+};
+
+var drag = d3.behavior.drag()
+    .on('drag', dragmove);
+
+
+
 
 d3.select('.board').selectAll('svg')
   .data([null])
@@ -21,6 +44,16 @@ d3.select('.board').selectAll('svg')
   .style('width', '800px')
   .style('height', '600px');
 
+d3.select('svg').selectAll('svg')
+  .data([1])
+  .enter()
+  .append('circle')
+  .classed('player', true)
+  .attr('r', '10')
+  .attr('cx', '400')
+  .attr('cy', '300')
+  .style('fill', 'green')
+  .call(drag);
 
 d3.select('svg').selectAll('circle')
   .data(numEnemies(enemyCount))
@@ -32,17 +65,6 @@ d3.select('svg').selectAll('circle')
   .attr('cy', function (d) { return d[1]; })
   .style('fill', 'red');
 
-d3.select('svg').selectAll('svg')
-  .data([1])
-  .enter()
-  .append('circle')
-  .classed('player', true)
-  .attr('r', '10')
-  // .attr('height', '10px')
-  .attr('cx', '400')
-  .attr('cy', '300')
-  .style('fill', 'green');
-
 var changeEnemyPositions = function () {
   d3.select('svg').selectAll('.asteroid')
     .data(numEnemies(enemyCount))
@@ -53,5 +75,32 @@ var changeEnemyPositions = function () {
 
 
 setInterval(changeEnemyPositions, enemySpeed);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
