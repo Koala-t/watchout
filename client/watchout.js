@@ -11,6 +11,9 @@ var numEnemies = function (num) {
   return results;
 };
 
+var enemyCount = 20;
+var enemySpeed = 1000;
+
 d3.select('.board').selectAll('svg')
   .data([1])
   .enter()
@@ -20,7 +23,7 @@ d3.select('.board').selectAll('svg')
 
 
 d3.select('svg').selectAll('circle')
-  .data(numEnemies(20))
+  .data(numEnemies(debrisCount))
   .enter()
   .append('circle')
   .classed('asteroid', true)
@@ -30,3 +33,16 @@ d3.select('svg').selectAll('circle')
   .style('fill', 'red');
 
 
+
+
+var changeEnemyPositions = function () {
+  d3.select('svg').selectAll('circle')
+    .data(numEnemies(debrisCount))
+    .transition().duration(enemySpeed)
+    .attr('cx', function (d) { return d[0]; }) 
+    .attr('cy', function (d) { return d[1]; });
+};
+
+var shuffleEnemies = function() {
+  
+};
