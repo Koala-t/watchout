@@ -1,6 +1,6 @@
 // start slingin' some d3 here.
 var collisions = 0, highScore = 0, currScore = 0, numPointsPerSec = 10;
-var enemyCount = 5; // why missing one?
+var enemyCount = 10; // why missing one?
 var enemySpeed = 2000;
 
 var xyCreator = function(boardWidth, boardHeight) {
@@ -19,8 +19,8 @@ var changeEnemyPositions = function () {
   d3.select('svg').selectAll('.asteroid')
     .data(enemyCreator(enemyCount))
     .transition().duration(enemySpeed)
-    .attr('cx', function (d) { return d[0]; }) 
-    .attr('cy', function (d) { return d[1]; });
+    .attr('x', function (d) { return d[0]; }) 
+    .attr('y', function (d) { return d[1]; });
 };
 
 
@@ -40,6 +40,7 @@ var gameOver = function() {
 
   d3.select('.board')
     .transition().duration(500)
+    .attr('background-image', 'null')
     .style('background-color', 'red')
     .transition().duration(500)
     .style('background-color', 'black');
@@ -47,6 +48,16 @@ var gameOver = function() {
 
   d3.select('.collisions').selectAll('span') 
     .text('' + (collisions));
+};
+
+var moreScore = function () {
+  currScore++;
+  d3.select('.current').selectAll('span') 
+    .text('' + currScore);
+
+  highScore = Math.max(highScore, currScore);
+  d3.select('.highscore').selectAll('span') 
+    .text('' + highScore);
 };
 
 // var click = function(){
@@ -66,6 +77,8 @@ d3.select('.board').selectAll('svg')
   .style('width', '800px')
   .style('height', '600px');
 
+
+//make player
 d3.select('svg').selectAll('svg')
   .data([1])
   .enter()
@@ -77,14 +90,18 @@ d3.select('svg').selectAll('svg')
   .style('fill', 'green')
   .call(drag);
 
+
+//make asteroids
 d3.select('svg').selectAll('circle')
   .data(enemyCreator(enemyCount))
   .enter()
-  .append('circle')
+  .append('image')
   .classed('asteroid', true)
-  .attr('r', '15')
-  .attr('cx', function (d) { return d[0]; }) //REFACTOR IN ES6
-  .attr('cy', function (d) { return d[1]; })
+  .attr('xlink:href', './asteroid.png')
+  .attr('height', 60)
+  .attr('width', 60)
+  .attr('x', function (d) { return d[0]; }) //REFACTOR IN ES6
+  .attr('y', function (d) { return d[1]; })
   .style('fill', 'red')
   .on('mouseover', function() {
     collisions++;
@@ -96,17 +113,6 @@ d3.select('svg').selectAll('circle')
 setInterval(changeEnemyPositions, enemySpeed);
 
 
-var moreScore = function () {
-  currScore++;
-  d3.select('.current').selectAll('span') 
-    .text('' + currScore);
-
-  highScore = Math.max(highScore, currScore);
-  d3.select('.highscore').selectAll('span') 
-    .text('' + highScore);
-  
-
-};
 
 
 setInterval(moreScore, 1000 / numPointsPerSec);

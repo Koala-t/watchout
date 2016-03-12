@@ -4,7 +4,9 @@
 Feel free to use it if you like. */
 
 .board {
-  background-color: black;
+  /*background-color: black;*/
+  background-image: url('./featured-space-policy.jpg');
+  background-size: 100% 100%;
   border: 10px solid red;
   height: 600px;
   width: 800px;
