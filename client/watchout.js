@@ -1,19 +1,25 @@
 // start slingin' some d3 here.
 var collisions = 0, highScore = 0, currScore = 0, numPointsPerSec = 10, fps = 60;
+var boardWidth = 800;
+var boardHeight = 600;
 var scale = .4;
 var shipWidth = 500 * scale, shipHeight = 187 * scale;
 var enemyCount = 10; // why missing one?
 var enemySpeed = 2000;
 var recoveryTime = false;
 
-var xyCreator = function(boardWidth, boardHeight) {
-  return [Math.random() * boardWidth, Math.random() * boardHeight];
+var setBoardLimits = function(value, shipConstraint, boardConstraint) {
+  return Math.max(0, Math.min(value, boardConstraint - shipConstraint));
+};
+
+var xyCreator = function(width, height) {
+  return [Math.random() * width, Math.random() * height];
 };
 
 var enemyCreator = function (num) {
   var results = [];
   for (var i = 0; i < num; i++) {// can use <= to add the missing asteroid
-    results.push(xyCreator(800, 600));
+    results.push(xyCreator(boardWidth, boardHeight));
   }
   return results;
 };
@@ -32,8 +38,11 @@ var changeEnemyPositions = function () {
 var dragmove = function(d) {
   var x = d3.event.x;
   var y = d3.event.y;
-  d3.select(this).attr('x', x - 100);
-  d3.select(this).attr('y', y - 100);
+  var newX = setBoardLimits(x - (shipWidth / 2), shipWidth, boardWidth);
+  var newY = setBoardLimits(y - (shipHeight / 2), shipHeight, boardHeight);
+  debugger;
+  d3.select(this).attr('x', newX);
+  d3.select(this).attr('y', newY);
 };
 
 var drag = d3.behavior.drag()
@@ -98,7 +107,6 @@ var collisionDetector = function () {
     var x = +element.attributes.x.value + 30;
     var y = +element.attributes.y.value + 30;
 
-    debugger;
     if (recoveryTime === false && shipPosition[0] < x && x < (shipPosition[0] + shipWidth) && (shipPosition[1]) < y && y < (shipPosition[1] + shipHeight)) {
       recoveryTime = true;
       gameOver();
