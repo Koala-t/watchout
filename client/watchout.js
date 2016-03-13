@@ -4,9 +4,10 @@ var scale = .4;
 var shipWidth = 500 * scale, shipHeight = 187 * scale;
 var enemyCount = 10; // why missing one?
 var enemySpeed = 2000;
+var recoveryTime = false;
 
 var xyCreator = function(boardWidth, boardHeight) {
-  return [.5 * boardWidth, .5 * boardHeight];
+  return [Math.random() * boardWidth, Math.random() * boardHeight];
 };
 
 var enemyCreator = function (num) {
@@ -39,7 +40,6 @@ var drag = d3.behavior.drag()
     .on('drag', dragmove);
 
 var gameOver = function() {
-  debugger;
   collisions++;
   currScore = 0;
   highScore = Math.max(currScore, highScore);
@@ -49,7 +49,11 @@ var gameOver = function() {
     .attr('fill', 'red');
     //TO DO make the board flash red on collision
   d3.select('.collisions').selectAll('span') 
-    .text('' + (collisions));
+    .text('' + collisions);
+
+  setTimeout(function() {
+    recoveryTime = false;
+  }, 400);
 
 };
 
@@ -95,7 +99,8 @@ var collisionDetector = function () {
     var y = +element.attributes.y.value + 30;
 
     debugger;
-    if (shipPosition[0] < x && x < (shipPosition[0] + shipWidth) && (shipPosition[1]) < y && y < (shipPosition[1] + shipHeight)) {
+    if (recoveryTime === false && shipPosition[0] < x && x < (shipPosition[0] + shipWidth) && (shipPosition[1]) < y && y < (shipPosition[1] + shipHeight)) {
+      recoveryTime = true;
       gameOver();
     }
     // check x + width
@@ -151,7 +156,11 @@ setInterval(moreScore, 1000 / numPointsPerSec);
 
 
 
+// boolean set to false
+// change it to true when collision
+// collision can only occur when false
 
+// with a set timeout to revert to false in a second
 
 
 
