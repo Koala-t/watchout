@@ -29,7 +29,7 @@ var changeEnemyPositions = function () {
   d3.select('svg').selectAll('.asteroid')
     .data(enemyCreator(enemyCount))
     .transition().duration(enemySpeed)
-    .attr('x', function (d) { return d[0]; })  
+    .attr('x', function (d) { return d[0]; })
     .attr('y', function (d) { return d[1]; })
     .style('border','10px solid red');
 
@@ -57,7 +57,7 @@ var gameOver = function() {
     .transition().duration(500)
     .attr('fill', 'red');
     //TO DO make the board flash red on collision
-  d3.select('.collisions').selectAll('span') 
+  d3.select('.collisions').selectAll('span')
     .text('' + collisions);
 
   setTimeout(function() {
@@ -68,11 +68,11 @@ var gameOver = function() {
 
 var moreScore = function () {
   currScore++;
-  d3.select('.current').selectAll('span') 
+  d3.select('.current').selectAll('span')
     .text('' + currScore);
 
   highScore = Math.max(highScore, currScore);
-  d3.select('.highscore').selectAll('span') 
+  d3.select('.highscore').selectAll('span')
     .text('' + highScore);
 };
 
@@ -81,7 +81,7 @@ var moreScore = function () {
 //   // Ignore the click event if it was suppressed
 //   // if (d3.event.defaultPrevented) return;
 //   // Extract the click location\
-//   debugger;    
+//   debugger;
 //   var point = d3.mouse(this);
 //   var p = {x: point[0], y: point[1] };
 // };
@@ -92,7 +92,9 @@ d3.select('.board').selectAll('svg')
   .enter()
   .append('svg')
   .style('width', '800px')
-  .style('height', '600px');
+  .style('height', '600px')
+  .style('background-image', "url('./featured-space-policy.jpg')")
+  .style('background-size', '100% 100%');
 
 var collisionDetector = function () {
   // debugger;
@@ -115,7 +117,7 @@ var collisionDetector = function () {
     // check y + height
     console.log(element.__data__);
   });
-                       
+
   //TODO evaluate if there is a collision
     //if there is call the gameOver function
 };
